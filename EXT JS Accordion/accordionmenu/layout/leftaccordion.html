@@ -1,0 +1,201 @@
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+<title>Left Accordion Menu for Prototype Site | Created By Dean,the Designer</title>
+<link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+<style type="text/css">
+p {
+    margin:5px;
+}
+.settings {
+    background-image:url(../shared/icons/fam/folder_wrench.png);
+}
+.nav {
+    background-image:url(../shared/icons/fam/folder_go.png);
+}
+.info {
+    background-image:url(../shared/icons/fam/information.png);
+}
+</style>
+<script type="text/javascript" src="../../bootstrap.js"></script>
+<script type="text/javascript">
+    Ext.require(['*']);
+
+    Ext.onReady(function() {
+
+        Ext.QuickTips.init();
+
+        // NOTE: This is an example showing simple state management. During development,
+        // it is generally best to disable state management as dynamically-generated ids
+        // can change across page loads, leading to unpredictable results.  The developer
+        // should ensure that stable state ids are set for stateful components in real apps.
+        Ext.state.Manager.setProvider(Ext.create('Ext.state.CookieProvider'));
+
+        var viewport = Ext.create('Ext.Viewport', {
+            id: 'border-example',
+            layout: 'border',
+            items: [
+            // create instance immediately
+            Ext.create('Ext.Component', {
+                region: 'north',
+                height: 32, // give north and south regions a height
+                autoEl: {
+                    tag: 'div',
+                    html:'<p>Left Accordion for Prototype Site</p>'
+                }
+            }), {
+                // lazily created panel (xtype:'panel' is default)
+                region: 'south',
+                contentEl: 'south',
+                split: true,
+                height: 100,
+                minSize: 100,
+                maxSize: 200,
+                collapsible: true,
+                collapsed: true,
+                title: 'South',
+                margins: '0 0 0 0'
+            }, {
+                xtype: 'tabpanel',
+                region: 'east',
+                title: 'Ratings',
+                dockedItems: [{
+                    dock: 'top',
+                    xtype: 'toolbar',
+                    items: [ '->', {
+                       xtype: 'button',
+                       text: 'test',
+                       tooltip: 'Test Button'
+                    }]
+                }],
+                animCollapse: true,
+                collapsible: true,
+                split: true,
+                width: 225, // give east and west regions a width
+                minSize: 175,
+                maxSize: 400,
+                margins: '0 5 0 0',
+                activeTab: 1,
+                tabPosition: 'bottom',
+                items: [{
+                    html: '<p>A TabPanel component can be a region.</p>',
+                    title: 'A Tab',
+                    autoScroll: true
+                }, Ext.create('Ext.grid.PropertyGrid', {
+                        title: 'Property Grid',
+                        closable: true,
+                        source: {
+                            "(name)": "Properties Grid",
+                            "grouping": false,
+                            "autoFitColumns": true,
+                            "productionQuality": false,
+                            "created": Ext.Date.parse('10/15/2006', 'm/d/Y'),
+                            "tested": false,
+                            "version": 0.01,
+                            "borderWidth": 1
+                        }
+                    })]
+            }, {
+                region: 'west',
+                stateId: 'navigation-panel',
+                id: 'west-panel', // see Ext.getCmp() below
+                title: 'Toolbar',
+                split: true,
+                width: 200,
+                minWidth: 175,
+                maxWidth: 400,
+                collapsible: true,
+                animCollapse: true,
+                margins: '0 0 0 5',
+                layout: 'accordion',
+                items: [{
+                    contentEl: 'west',
+                    title: 'Dashboards',
+                    iconCls: 'nav' // see the HEAD section for style used
+                }, {
+                    title: 'Analyst Tasks',
+                    html: '<img src="images/pad.gif"/>  <p>Credit News</p>  <img src="images/pad.gif"/> <p>Review an Entity</p><img src="images/pad.gif"/> </p><p>View A Report</p><img src="images/pad.gif"/> </p><p> Manage Documents </p><img src="images/pad.gif"/> <p> Problem Analytics</p>',
+                    iconCls: 'settings'
+                }, {
+                    title: 'References',
+                    html: '<img src="images/news.gif"/><p>References 1 </p> <img src="images/news.gif"/> <p>References 2 </p>',
+                    iconCls: 'info'
+                }]
+            },
+            // in this instance the TabPanel is not wrapped by another panel
+            // since no title is needed, this Panel is added directly
+            // as a Container
+            Ext.create('Ext.tab.Panel', {
+                region: 'center', // a center region is ALWAYS required for border layout
+                deferredRender: false,
+                activeTab: 0,     // first tab initially active
+                items: [{
+                    contentEl: 'center1',
+                    title: 'Close Me',
+                    closable: true,
+                    autoScroll: true
+                }, {
+                    contentEl: 'center2',
+                    title: 'Center Panel',
+                    autoScroll: true
+                }]
+            })]
+        });
+        // get a reference to the HTML element with id "hideit" and add a click listener to it
+        Ext.get("hideit").on('click', function(){
+            // get a reference to the Panel that was created with id = 'west-panel'
+            var w = Ext.getCmp('west-panel');
+            // expand or collapse that Panel based on its collapsed property state
+            w.collapsed ? w.expand() : w.collapse();
+        });
+    });
+    </script>
+</head>
+<body>
+    <!-- use class="x-hide-display" to prevent a brief flicker of the content -->
+    <div id="west" class="x-hide-display">
+        <img src="images/Dash.gif"/><a href="http://nj09cld1000:31965/SitePages/Home.aspx" title=" Dashboards"> Dashboards</a></li>
+        <li><img src="images/news.gif"/><a href="http://nj09cld1000:31965/SitePages/Home.aspx" title="Credit News"> Credit News</a></li>
+        <li><img src="images/reports.gif"/><a href="http://nj09cld1000:31965/SitePages/Home.aspx" title="My Reports">My Reports</a>  </li>
+        <li><img src="images/group.gif"/><a href="http://nj09cld1000:31965/SitePages/Home.aspx" title="My Group View"> My Group View</a></li>
+        <li><img src="images/basket.gif"/><a href="http://nj09cld1000:31965/SitePages/Home.aspx" title="To Do Items"> To Do Items</a></li>
+        <li><img src="images/research.gif"/><a href="http://nj09cld1000:31965/SitePages/Home.aspx" title="My Research"> My Research</a>
+        </li><li><img src="images/gears.gif"/><a href="http://nj09cld1000:31965/SitePages/Home.aspx" title="Create a Custom View"> Create a Custom View</a></li>
+    </div>
+    <div id="center2" class="x-hide-display">
+        <a id="hideit" href="#">Toggle the west region</a>
+
+        <div style="font-family:TitiliumText Bold;font-size:14px;">Standard & Poor's Ratings Definitions</div>
+
+
+        <p> Table of Contents </p>
+
+        <p>The analyses, including ratings, of Standard & Poor's and its affiliates (together, Standard & Poor's) are statements of opinion as of the date they are expressed and not statements of fact or recommendations to purchase, hold, or sell any securities or make any investment decisions. Standard & Poor's assumes no obligation to update any information following publication. Users of ratings or other analyses should not rely on them in making any investment decision. Standard & Poor's opinions and analyses do not address the suitability of any security. Standard & Poor's does not act as a fiduciary or an investment advisor except where registered as such. While Standard & Poor's has obtained information from sources it believes to be reliable, Standard & Poor's does not perform an audit and undertakes no duty of due diligence or independent verification of any information it receives. Ratings and other opinions may be changed, suspended, or withdrawn at any time. </p>
+         <hr>
+        1.	This document contains Standard & Poor's rating definitions. The definitions are classified into two types; general-purpose credit ratings and special-purpose ratings. Ratings use letters, numbers and/or words to summarize the opinion. The rating definition provides the meaning of the letters, numbers and/or words. Additionally, some ratings have qualifiers, suffixes and/or identifiers attached. Definitions of this supplementary information are included.
+
+        2.	Eight sections detail the ratings definitions. Section I describes the general-purpose credit rating, both issue and issuer credit ratings, and the long-term and short-term credit ratings. Section II provides information on CreditWatch, rating outlooks and local currency and foreign currency ratings. Ten types of special-purpose ratings are detailed in section III. Qualifiers are covered in section IV. Section V details national and regional scale ratings. Other credit related opinions are described in section VI. Section VII details seven other identifiers. Section VIII includes a list of contacts for further information.
+
+        3.	Standard & Poor's provides other services not covered in this document. Information about other products and services is located on Standard & Poor's Web site at http://www.standardandpoors.com.
+
+        <p>I. GENERAL-PURPOSE CREDIT RATINGS </p>
+        4.The following sets of rating definitions are for long-term and short-term credit ratings for both issuer and issue ratings. These types of credit ratings cover the broadest set of credit risk factors and are not limited in scope. Some refer to these as the "traditional" credit ratings.
+
+        <p>A. Issue Credit Ratings</p>
+        5.	A Standard & Poor's issue credit rating is a forward-looking opinion about the creditworthiness of an obligor with respect to a specific financial obligation, a specific class of financial obligations, or a specific financial program (including ratings on medium-term note programs and commercial paper programs). It takes into consideration the creditworthiness of guarantors, insurers, or other forms of credit enhancement on the obligation and takes into account the currency in which the obligation is denominated. The opinion reflects Standard & Poor's view of the obligor's capacity and willingness to meet its financial commitments as they come due, and may assess terms, such as collateral security and subordination, which could affect ultimate payment in the event of default.
+
+        6.	Issue credit ratings can be either long-term or short-term. Short-term ratings are generally assigned to those obligations considered short-term in the relevant market. In the U.S., for example, that means obligations with an original maturity of no more than 365 days—including commercial paper. Short-term ratings are also used to indicate the creditworthiness of an obligor with respect to put features on long-term obligations. The result is a dual rating, in which the short-term rating addresses the put feature, in addition to the usual long-term rating. Medium-term notes are assigned long-term ratings.
+
+
+
+    </div>
+    <div id="center1" class="x-hide-display">
+        <p><b>Done reading me? Close me by clicking the X in the top right corner.</b></p>
+
+    </div>
+    <div id="props-panel" class="x-hide-display" style="width:200px;height:200px;overflow:hidden;">
+    </div>
+    <div id="south" class="x-hide-display">
+        <p>south - generally for informational stuff, also could be for status bar</p>
+    </div>
+</body>
+</html>
